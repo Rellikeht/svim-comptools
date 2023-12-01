@@ -1,0 +1,3 @@
+[submodule "svim"]
+	path = svim
+	url = https://github.com/vim/vim
