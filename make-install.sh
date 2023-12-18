@@ -3,4 +3,4 @@
 
 cd svim
 doas make install
-./make-clean.sh
+../make-clean.sh

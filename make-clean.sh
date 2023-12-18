@@ -2,5 +2,5 @@
 
 cd svim
 make clean
-git restore --staged src/feature.h
+git restore src/feature.h
 rm src/TAGS src/svim
