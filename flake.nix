@@ -34,6 +34,7 @@
 
               buildInputs = with pkgs; [
                 ncurses
+                binutils
 
                 xorg.libXt
                 xorg.libX11
