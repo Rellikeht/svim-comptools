@@ -1,29 +1,6 @@
-#!/bin/sh
-# ????
 #!/usr/bin/env sh
 
-make clean
-make distclean
-#    LIBS="-lXmu -lXmuu" \
-#    CPPFLAGS="-I/usr/local/include -I/usr/local/include/Xm \
-#    -I/usr/local/include/X11 -I/usr/local/include/uil \
-#    -I/usr/local/include/Mrm" \
-#    LDFLAGS="-L/usr/local/lib -L/usr/lib" \
-
-if [ -z "$CC" ]
-then
-    if [ $(uname) = "FreeBSD" ]
-    then
-        export CC=/usr/bin/clang
-        #export CC=gcc
-    fi
-fi
-
-#CONF=./configure
-#[ -z "$1" ] && $CONF="$1"
-
-export CFLAGS="-O2 -march=native -mtune=native"
-./configure \
+echo \
     --enable-fail-if-missing           \
     --disable-darwin                   \
     --disable-smack                    \

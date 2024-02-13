@@ -1,1 +1,4 @@
 *.swp
+*~
+#flake.lock
+result

@@ -6,5 +6,7 @@ then
     THR="$1"
 fi
 
-./conf.sh && cd svim && make -j"$THR"
+cd svim
+cp ../feature.h src/
+../conf.sh && cd svim && make -j"$THR"
 #doas make install
