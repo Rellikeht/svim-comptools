@@ -1,6 +1,4 @@
 #!/bin/sh
-# ????
-#!/usr/bin/env sh
 
 make clean
 make distclean
@@ -10,53 +8,60 @@ make distclean
 #    -I/usr/local/include/Mrm" \
 #    LDFLAGS="-L/usr/local/lib -L/usr/lib" \
 
-if [ -z "$CC" ]
-then
-    if [ $(uname) = "FreeBSD" ]
-    then
+if [ -z "$CC" ]; then
+    if [ "$(uname)" = "FreeBSD" ]; then
         export CC=/usr/bin/clang
-        #export CC=gcc
+    else
+        export CC=gcc
     fi
 fi
 
-#CONF=./configure
-#[ -z "$1" ] && $CONF="$1"
+PREFIX=/usr/local
+[ -n "$1" ] && PREFIX="$1"
 
 export CFLAGS="-O2 -march=native -mtune=native"
 ./configure \
-    --enable-fail-if-missing           \
-    --disable-darwin                   \
-    --disable-smack                    \
-    --disable-selinux                  \
-    --disable-xsmp                     \
-    --disable-xsmp-interact            \
-    --disable-cscope                   \
-    --disable-netbeans                 \
-    --disable-terminal                 \
-    --disable-autoservername           \
-    --disable-rightleft                \
-    --disable-arabic                   \
-    --disable-farsi                    \
-    --enable-xim                       \
-    --enable-fontset                   \
-    --disable-gtktest                  \
-    --disable-icon-cache-update        \
-    --disable-desktop-database-update  \
-    --disable-canberra                 \
-    --disable-libsodium                \
-    --disable-acl                      \
-    --disable-gpm                      \
-    --disable-sysmouse                 \
-    --disable-nls                      \
-    --with-features=normal		\
-    --with-tlib=ncurses		    	\
-    --with-vim-name=svim	    	\
-    --with-ex-name=exs		    	\
-    --with-view-name=sview	    	\
-    --enable-motif-check		\
-    --enable-gui=motif		    	\
-    --with-modified-by=michal	    	\
-    --with-compiledby=michal	    
+    --enable-fail-if-missing \
+    --disable-darwin \
+    --disable-smack \
+    --disable-selinux \
+    --disable-xsmp \
+    --disable-xsmp-interact \
+    --disable-cscope \
+    --disable-netbeans \
+    --disable-terminal \
+    --disable-autoservername \
+    --disable-rightleft \
+    --disable-arabic \
+    --disable-farsi \
+    --enable-xim \
+    --enable-fontset \
+    --disable-gtktest \
+    --disable-icon-cache-update \
+    --disable-desktop-database-update \
+    --disable-canberra \
+    --disable-libsodium \
+    --disable-acl \
+    --disable-gpm \
+    --disable-sysmouse \
+    --disable-nls \
+    --with-features=normal \
+    --with-tlib=ncurses \
+    --with-vim-name=svim \
+    --with-ex-name=exs \
+    --with-view-name=sview \
+    --disable-gtk_check \
+    --disable-gtk2_check \
+    --disable-gnome_check \
+    --disable-athena_check \
+    --disable-nextaf_check \
+    --disable-carbon_check \
+    --disable-gtktest \
+    --enable-motif-check \
+    --enable-gui=motif \
+    --with-modified-by=michal \
+    --with-compiledby=michal \
+    --prefix="$PREFIX"
 
 #   --enable-gui=athena	    	\
 #    --enable-gui=photon		    \

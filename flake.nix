@@ -1,7 +1,8 @@
 {
   description = "My custom build of vim";
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs;
+    # nixpkgs.url = github:NixOS/nixpkgs;
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
     flakeUtils.url = github:numtide/flake-utils;
     vim = {
       url = github:vim/vim;
@@ -17,63 +18,87 @@
   }: let
     systems = [
       "x86_64-linux"
+
+      # Untested, should be fine
       "aarch64-linux"
+      "i686-linux"
+      "armv7l-linux"
     ];
   in
     flakeUtils.lib.eachSystem systems (system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-        name = "svim";
-        src = vim;
-        code = self;
-      in {
-        packages = {
-          default =
-            pkgs.stdenv.mkDerivation rec {
-              inherit name system src;
-              enableParallelBuilding = true;
+      pkgs = nixpkgs.legacyPackages.${system};
+      name = "svim";
+      src = vim;
+      code = self;
+    in {
+      packages = {
+        default = pkgs.stdenv.mkDerivation rec {
+          inherit name system src;
+          enableParallelBuilding = true;
 
-              buildInputs = with pkgs; [
-                ncurses
-                binutils
+          buildInputs = with pkgs;
+            [
+              ncurses
+              motif
+              gpm
 
-                xorg.libXt
-                xorg.libX11
-                xorg.libICE
+              gettext
+              zlib
+              libgcrypt
+            ]
+            ++ (with pkgs.xorg; [
+              libXt
+              libX11
+              libICE
 
-                # ??
-                xorg.libXpm
-                motif
-                gpm
-                zlib
-                libgcrypt
-              ];
+              libSM
+              libXext
+              libXpm
+              libXaw
+              libXau
+              libXmu
+            ]);
 
-              nativeBuildInputs = with pkgs;
-                [
-                ]
-                ++ buildInputs;
+          nativeBuildInputs = with pkgs; [
+          ];
 
-              PREFIX = "$(out)";
-              CC = pkgs.gcc;
+          phases = [
+            "unpackPhase"
+            "configurePhase"
+            "buildPhase"
+            "installPhase"
+          ];
 
-              configurePhase = "
-            mkdir -p $out/bin $out/share/man
-            cp ${code}/feature.h src/
-            ${code}/conf.sh
-          ";
+          hardeningDisable = ["fortify"];
 
-              buildPhase = "
+          CC = "${pkgs.gcc}/bin/gcc";
+          PREFIX = "$(out)";
+
+          # which.sh is used to for vim's own shebang patching, so make it find
+          # binaries for the host platform.
+          preConfigure = ''
+            export HOST_PATH
+            substituteInPlace src/which.sh --replace '$PATH' '$HOST_PATH'
+          '';
+
+          configurePhase = ''
+            mkdir -p $out
+            cp ${code}/feature.h ./src
+            ${code}/conf.sh "$PREFIX"
+          '';
+
+          buildPhase = ''
             make -j $NIX_BUILD_CORES
-          ";
+          '';
 
-              installPhase = "
-#            make install
-          ";
+          installPhase = ''
+            make install
+          '';
 
-              meta = with nixpkgs.lib; {
-                homepage = "https://vim.org";
-              };
-            };
+          # meta = with nixpkgs.lib; {
+          #   homepage = "https://vim.org";
+          # };
         };
-      });
+      };
+    });
 }

@@ -1,4 +1,4 @@
 *.swp
 *~
-#flake.lock
 result
+svim
