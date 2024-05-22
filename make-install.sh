@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 ./make.sh "$@"
 
-cd svim
+cd svim || exit
 doas make install
 ../make-clean.sh

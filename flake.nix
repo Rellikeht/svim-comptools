@@ -2,10 +2,10 @@
   description = "My custom build of vim";
   inputs = {
     # nixpkgs.url = github:NixOS/nixpkgs;
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
-    flakeUtils.url = github:numtide/flake-utils;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    flakeUtils.url = "github:numtide/flake-utils";
     vim = {
-      url = github:vim/vim;
+      url = "github:vim/vim";
       flake = false;
     };
   };
@@ -32,7 +32,7 @@
       code = self;
     in {
       packages = {
-        default = pkgs.stdenv.mkDerivation rec {
+        default = pkgs.stdenv.mkDerivation {
           inherit name system src;
           enableParallelBuilding = true;
 
@@ -59,8 +59,8 @@
               libXmu
             ]);
 
-          nativeBuildInputs = with pkgs; [
-          ];
+          # nativeBuildInputs = with pkgs; [
+          # ];
 
           phases = [
             "unpackPhase"
@@ -73,6 +73,7 @@
 
           CC = "${pkgs.gcc}/bin/gcc";
           PREFIX = "$(out)";
+          MOTIF_LIB = "${pkgs.motif}/lib/";
 
           # which.sh is used to for vim's own shebang patching, so make it find
           # binaries for the host platform.
@@ -95,6 +96,7 @@
             make install
           '';
 
+          # TODO
           # meta = with nixpkgs.lib; {
           #   homepage = "https://vim.org";
           # };

@@ -1,12 +1,14 @@
 #!/usr/bin/env sh
 
 THR=4
-if [ $1 -gt 1 ] 2>/dev/null
-then
+if [ "$1" -gt 1 ] 2>/dev/null; then
     THR="$1"
 fi
 
-cd svim
+if [ "${PWD##*/}" != "svim" ]; then
+    cd svim || exit
+fi
+
 cp ../feature.h src/
-../conf.sh && cd svim && make -j"$THR"
-#doas make install
+# ../conf.sh /usr/local/bin --includedir=/usr/include && make -j"$THR"
+../conf.sh /usr/local/bin && make -j"$THR"
