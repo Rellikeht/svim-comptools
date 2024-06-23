@@ -1,8 +1,8 @@
 {
   description = "My custom build of vim";
   inputs = {
-    # nixpkgs.url = github:NixOS/nixpkgs;
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     flakeUtils.url = "github:numtide/flake-utils";
     vim = {
       url = "github:vim/vim";
@@ -16,14 +16,14 @@
     flakeUtils,
     vim,
   }: let
-    systems = [
-      "x86_64-linux"
-
-      # Untested, should be fine
-      "aarch64-linux"
-      "i686-linux"
-      "armv7l-linux"
-    ];
+    systems = flakeUtils.lib.allSystems;
+    # systems = [
+    #   "x86_64-linux"
+    #   # Untested, should be fine
+    #   "aarch64-linux"
+    #   "i686-linux"
+    #   "armv7l-linux"
+    # ];
   in
     flakeUtils.lib.eachSystem systems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -39,7 +39,6 @@
           buildInputs = with pkgs;
             [
               ncurses
-              motif
               gpm
 
               gettext

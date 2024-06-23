@@ -55,9 +55,9 @@ fi
     --disable-nls \
     --with-features=normal \
     --with-tlib=ncurses \
-    --with-vim-name=vim \
-    --with-ex-name=ex \
-    --with-view-name=view \
+    --with-vim-name=svim \
+    --with-ex-name=exs \
+    --with-view-name=sview \
     --disable-gtktest \
     --with-modified-by=Rellikeht \
     --with-compiledby=Rellikeht \
