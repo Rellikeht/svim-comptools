@@ -113,6 +113,8 @@
 #define FEAT_WILDMENU
 #define FEAT_XCLIPBOARD
 #define HAVE_SANDBOX
+#define WANT_X11
+#define FEAT_CLIPBOARD
 
 /* #define FEAT_JOB_CHANNEL */
 /* #define FEAT_TOOLBAR */
