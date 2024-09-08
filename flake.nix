@@ -58,9 +58,6 @@
               libXmu
             ]);
 
-          # nativeBuildInputs = with pkgs; [
-          # ];
-
           phases = [
             "unpackPhase"
             "configurePhase"
@@ -72,7 +69,7 @@
 
           CC = "${pkgs.gcc}/bin/gcc";
           PREFIX = "$(out)";
-          MOTIF_LIB = "${pkgs.motif}/lib/";
+          # MOTIF_LIB = "${pkgs.motif}/lib/";
 
           # which.sh is used to for vim's own shebang patching, so make it find
           # binaries for the host platform.
@@ -95,10 +92,10 @@
             make install
           '';
 
-          # TODO
-          # meta = with nixpkgs.lib; {
-          #   homepage = "https://vim.org";
-          # };
+          # TODO C
+          meta = with nixpkgs.lib; {
+            homepage = "https://vim.org";
+          };
         };
       };
     });

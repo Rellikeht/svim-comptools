@@ -22,8 +22,8 @@ if [ -n "$1" ]; then
     shift
 fi
 
-# export CFLAGS="-O2 -march=native -mtune=native"
-export CFLAGS="-O2"
+export CFLAGS="-O2 -march=native -mtune=native"
+# export CFLAGS="-O2"
 
 if [ -z "$MOTIF_LIB" ]; then
     MOTIF_LIB="/usr/lib"
