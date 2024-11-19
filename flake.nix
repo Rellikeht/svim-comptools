@@ -35,6 +35,10 @@
         default = pkgs.stdenv.mkDerivation {
           inherit name system src;
           enableParallelBuilding = true;
+          enableParallelInstalling = false;
+
+          nativeBuildInputs = with pkgs; [
+          ];
 
           buildInputs = with pkgs;
             [
@@ -69,7 +73,6 @@
 
           CC = "${pkgs.gcc}/bin/gcc";
           PREFIX = "$(out)";
-          # MOTIF_LIB = "${pkgs.motif}/lib/";
 
           # which.sh is used to for vim's own shebang patching, so make it find
           # binaries for the host platform.
@@ -79,13 +82,19 @@
           '';
 
           configurePhase = ''
-            mkdir -p $out
             cp ${code}/feature.h ./src
-            ${code}/conf.sh "$PREFIX"
+            ${code}/conf.sh $out $PWD
+            # sed -Ei 's#\./configure#sh ./configure#' configure
+            # sed -Ei 's#auto/configure#sh auto/configure#' src/configure
+            # sh ${code}/conf.sh $out $PWD
           '';
 
           buildPhase = ''
             make -j $NIX_BUILD_CORES
+          '';
+
+          preInstall = ''
+            mkdir -p $out/bin
           '';
 
           installPhase = ''

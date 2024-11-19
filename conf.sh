@@ -16,18 +16,15 @@ if [ -z "$CC" ]; then
     fi
 fi
 
-PREFIX=/usr/local
 if [ -n "$1" ]; then
     PREFIX="$1"
     shift
+elif [ -z "$PREFIX" ]; then
+    PREFIX=/usr/local
 fi
 
 export CFLAGS="-O2 -march=native -mtune=native"
 # export CFLAGS="-O2"
-
-if [ -z "$MOTIF_LIB" ]; then
-    MOTIF_LIB="/usr/lib"
-fi
 
 ./configure \
     --enable-fail-if-missing \
@@ -59,6 +56,12 @@ fi
     --with-ex-name=exs \
     --with-view-name=sview \
     --disable-gtktest \
+    --disable-gtk2-check \
+    --disable-gtk3-check \
+    --disable-gnome-check \
+    --without-gnome \
+    --without-gtk2 \
+    --without-gtk3 \
     --with-modified-by=Rellikeht \
     --with-compiledby=Rellikeht \
     --prefix="$PREFIX" \
