@@ -36,6 +36,7 @@
           inherit name system src;
           enableParallelBuilding = true;
           enableParallelInstalling = false;
+          NIX_ENFORCE_NO_NATIVE = false;
 
           nativeBuildInputs = with pkgs; [
           ];
