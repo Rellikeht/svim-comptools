@@ -1,8 +1,7 @@
 {
   description = "My custom build of vim";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flakeUtils.url = "github:numtide/flake-utils";
     vim = {
       url = "github:vim/vim";
