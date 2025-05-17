@@ -71,7 +71,7 @@
 
           hardeningDisable = ["fortify"];
 
-          CC = "${pkgs.gcc}/bin/gcc";
+          CC = pkgs.stdenv.cc;
           PREFIX = "$(out)";
 
           # which.sh is used to for vim's own shebang patching, so make it find
