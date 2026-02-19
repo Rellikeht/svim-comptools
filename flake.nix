@@ -40,27 +40,25 @@
           nativeBuildInputs = with pkgs; [
           ];
 
-          buildInputs = with pkgs;
-            [
-              ncurses
-              gpm
+          buildInputs = with pkgs; [
+            ncurses
+            gpm
 
-              gettext
-              zlib
-              libgcrypt
-            ]
-            ++ (with pkgs.xorg; [
-              libXt
-              libX11
-              libICE
+            gettext
+            zlib
+            libgcrypt
 
-              libSM
-              libXext
-              libXpm
-              libXaw
-              libXau
-              libXmu
-            ]);
+            libXt
+            libX11
+            libICE
+
+            libSM
+            libXext
+            libXpm
+            libXaw
+            libXau
+            libXmu
+          ];
 
           phases = [
             "unpackPhase"
