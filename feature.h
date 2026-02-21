@@ -166,11 +166,6 @@
  */
 
 /*
- * Message history is fixed at 1000 messages.
- */
-#define MAX_MSG_HIST_LEN 1000
-
-/*
  * +folding		Fold lines.
  */
 #ifdef FEAT_NORMAL
@@ -269,8 +264,7 @@
 /*
  * +cscope		Unix only: Cscope support.
  */
-#if defined(UNIX) && defined(FEAT_HUGE) && !defined(FEAT_CSCOPE) &&            \
-    !defined(MACOS_X)
+#if defined(UNIX) && defined(FEAT_HUGE) && !defined(ENABLE_CSCOPE)
 #define FEAT_CSCOPE
 #endif
 
@@ -943,6 +937,10 @@
 #define MSWIN_FR_BUFSIZE 256
 #endif
 
+#if defined(UNIX) && defined(WANT_SOCKETSERVER)
+#define FEAT_SOCKETSERVER
+#endif
+
 #if defined(FEAT_GUI_GTK) || defined(FEAT_GUI_MOTIF) ||                        \
     defined(MSWIN_FIND_REPLACE)
 #define FIND_REPLACE_DIALOG 1
@@ -952,7 +950,7 @@
  * +clientserver	Remote control via the remote_send() function
  *			and the --remote argument
  */
-#if (defined(MSWIN) || defined(FEAT_XCLIPBOARD)) && defined(FEAT_EVAL)
+#if (defined(MSWIN) || defined(FEAT_XCLIPBOARD)) || defined(FEAT_SOCKETSERVER) && defined(FEAT_EVAL)
 #define FEAT_CLIENTSERVER
 #endif
 
@@ -1040,17 +1038,17 @@
  */
 
 /*
+ * The +channel feature requires +eval and +job_channel.
+ */
+#if (!defined(FEAT_EVAL) || !defined(FEAT_JOB_CHANNEL)) && defined(FEAT_NETBEANS_INTG)
+#undef FEAT_JOB_CHANNEL
+#endif
+
+/*
  * The Netbeans feature requires +eval.
  */
 #if !defined(FEAT_EVAL) && defined(FEAT_NETBEANS_INTG)
 #undef FEAT_NETBEANS_INTG
-#endif
-
-/*
- * The +channel feature requires +eval.
- */
-#if !defined(FEAT_EVAL) && defined(FEAT_JOB_CHANNEL)
-#undef FEAT_JOB_CHANNEL
 #endif
 
 /*
@@ -1182,11 +1180,15 @@
 #define FEAT_VTP
 #endif
 
-#if defined(DYNAMIC_PERL) || defined(DYNAMIC_PYTHON) ||                        \
-    defined(DYNAMIC_PYTHON3) || defined(DYNAMIC_RUBY) ||                       \
-    defined(DYNAMIC_TCL) || defined(DYNAMIC_ICONV) ||                          \
-    defined(DYNAMIC_GETTEXT) || defined(DYNAMIC_MZSCHEME) ||                   \
-    defined(DYNAMIC_LUA) || defined(FEAT_TERMINAL)
+#if defined(DYNAMIC_PERL) \
+    || defined(DYNAMIC_PYTHON) || defined(DYNAMIC_PYTHON3) \
+    || defined(DYNAMIC_RUBY) \
+    || defined(DYNAMIC_TCL) \
+    || defined(DYNAMIC_ICONV) \
+    || defined(DYNAMIC_GETTEXT) \
+    || defined(DYNAMIC_MZSCHEME) \
+    || defined(DYNAMIC_LUA) \
+    || defined(FEAT_TERMINAL)
 #define USING_LOAD_LIBRARY
 #endif
 
@@ -1197,3 +1199,7 @@
 #if defined(FEAT_NORMAL) && defined(HAVE_XATTR) && !defined(MACOS_X)
 #define FEAT_XATTR
 #endif
+
+#undef WANT_WAYLAND
+#undef FEAT_WAYLAND_CLIPBOARD_FS
+#undef FEAT_WAYLAND_CLIPBOARD
